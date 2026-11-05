@@ -1,8 +1,6 @@
 #modify and add stuff, 
 #preferably with a structure mainly written with functions, 
 #hardware backend should always be "symmetrical" to frontend, 
-#for usability purposes
-
 #this is just a sketch, for now
 
 def eTension(reference_value):
