@@ -1,159 +1,26 @@
-import numpy as np
-import matplotlib.pyplot as plt
+#modify and add stuff, 
+#preferably with a structure mainly written with functions, 
+#hardware backend should always be "symmetrical" to frontend, 
+#for usability purposes
 
-# Constants
-c = 3e8  # Speed of light (m/s)
-m = 1000  # Mass (kg)
-eta = 0.95  # Efficiency (dimensionless)
-P_max = 1e12  # Max power (1 TW)
-V_dot_max = 1e8  # Max voltage (V)
-Z_min = 0.01  # Min impedance (Ohm)
-f_min = 0.1  # Min frequency (Hz)
-v_target = 0.1 * c  # Target velocity (0.1c)
+#this is just a sketch, for now
 
-# Initial conditions
-V_dot = 1e7  # Initial voltage (V)
-f = 0.1  # Initial frequency (Hz)
-Z = 0.01  # Initial impedance (Ohm)
-v = 0  # Initial velocity (m/s)
-t = 0  # Initial time (s)
-dt = 0.1  # Time step (s)
-t_max = 200  # Simulation time (s)
+def eTension(reference_value):
+    #from the powerplant unit
 
-# Control parameters
-u1 = 1e7  # dV_dot/dt (V/s, for acceleration)
-u2 = -0.01  # df/dt (Hz/s)
-u3 = -0.001  # dZ/dt (Ohm/s)
+def sFrequency():
+    #from the controls interface
 
-# Arrays to store results
-times = []
-velocities = []
-accelerations = []
-voltages = []
-frequencies = []
-impedances = []
-powers = []
+def sMass():
+    #from the vessel's specifics
 
-# Feedback control functions
-def compute_velocity(V_dot, f, Z, m):
-    w = f * m * Z
-    return eta * V_dot * w**(-0.5)
+def sImpedance(measure1, measure2):
+    #from the metric control interface unit
 
-def compute_acceleration(v, V_dot, f, Z, u1, u2, u3, m):
-    gamma = 1 / np.sqrt(1 - (v**2 / c**2)) if v < c else 1
-    w = f * m * Z
-    term1 = eta * u1 * w**(-0.5)
-    term2 = -0.5 * eta * V_dot * w**(-1.5) * (u2 * m * Z + f * m * u3)
-    return gamma**3 * (term1 + term2)
-
-def compute_constant_velocity_u1(V_dot, f, Z, u2, u3, m):
-    w = f * m * Z
-    return 0.5 * V_dot * w**(-1) * (u2 * m * Z + f * m * u3)
-
-def compute_power(V_dot, Z):
-    return (V_dot**2) / Z
-
-# Simulation loop
-constant_velocity_mode = False
-while t < t_max:
-    # Compute current state
-    v = compute_velocity(V_dot, f, Z, m)
-    if not constant_velocity_mode:
-        a = compute_acceleration(v, V_dot, f, Z, u1, u2, u3, m)
-    else:
-        a = 0  # Constant velocity mode
-    P = compute_power(V_dot, Z)
-
-    # Store results
-    times.append(t)
-    velocities.append(v)
-    accelerations.append(a)
-    voltages.append(V_dot)
-    frequencies.append(f)
-    impedances.append(Z)
-    powers.append(P)
-
-    # Feedback control
-    if v >= v_target and not constant_velocity_mode:
-        constant_velocity_mode = True
-        print(f"Reached target velocity {v/c:.6f}c at t={t:.1f}s")
-
-    if constant_velocity_mode:
-        u1 = compute_constant_velocity_u1(V_dot, f, Z, u2, u3, m)
-    else:
-        if P > P_max:
-            u1 *= 0.5
-        if Z < Z_min:
-            u3 = 0
-        if f < f_min:
-            u2 = 0
-        if V_dot > V_dot_max:
-            u1 = 0
-
-    # Update parameters
-    V_dot += u1 * dt
-    f += u2 * dt
-    Z += u3 * dt
-    t += dt
-
-    # Ensure constraints
-    V_dot = min(V_dot, V_dot_max)
-    f = max(f, f_min)
-    Z = max(Z, Z_min)
-
-# Convert lists to arrays
-times = np.array(times)
-velocities = np.array(velocities)
-accelerations = np.array(accelerations)
-voltages = np.array(voltages)
-frequencies = np.array(frequencies)
-impedances = np.array(impedances)
-powers = np.array(powers)
-
-# Plot results
-plt.figure(figsize=(12, 8))
-
-plt.subplot(2, 2, 1)
-plt.plot(times, velocities / c, label='Velocity (fraction of c)')
-plt.axhline(y=0.01, color='r', linestyle='--', label='0.01c')
-plt.axhline(y=0.1, color='g', linestyle='--', label='0.1c')
-plt.xlabel('Time (s)')
-plt.ylabel('Velocity (c)')
-plt.legend()
-plt.grid()
-
-plt.subplot(2, 2, 2)
-plt.plot(times, accelerations / 9.81, label='Acceleration (g)')
-plt.xlabel('Time (s)')
-plt.ylabel('Acceleration (g)')
-plt.legend()
-plt.grid()
-
-plt.subplot(2, 2, 3)
-plt.plot(times, voltages, label='Voltage (V)')
-plt.plot(times, frequencies, label='Frequency (Hz)')
-plt.plot(times, impedances, label='Impedance (Ohm)')
-plt.xlabel('Time (s)')
-plt.ylabel('Parameters')
-plt.legend()
-plt.grid()
-
-plt.subplot(2, 2, 4)
-plt.plot(times, powers / 1e12, label='Power (TW)')
-plt.axhline(y=1, color='r', linestyle='--', label='1 TW limit')
-plt.xlabel('Time (s)')
-plt.ylabel('Power (TW)')
-plt.legend()
-plt.grid()
-
-plt.tight_layout()
-plt.savefig('propulsion_plot.png')  # Save for X post
-plt.show()
-
-# Print final state
-print(f"Final velocity: {velocities[-1]/c:.6f} c")
-print(f"Final acceleration: {accelerations[-1]/9.81:.2f} g")
-print(f"Final voltage: {voltages[-1]:.2e} V")
-print(f"Final frequency: {frequencies[-1]:.2f} Hz")
-print(f"Final impedance: {impedances[-1]:.2f} Ohm")
-print(f"Final power: {powers[-1]/1e12:.2f} TW")
+def fsdSpeedControlDisplay():
+    V=eTension
+    f=sFrequency
+    m=sMass
+    Z=sImpedance
+    ν=V/sqrt(f*m*Z)
+    print(ν)
