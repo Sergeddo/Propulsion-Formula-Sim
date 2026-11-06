@@ -4,16 +4,16 @@
 #this is just a sketch, for now
 
 def eTension(reference_value):
-    #from the powerplant unit
+    pass #from the powerplant unit
 
 def sFrequency():
-    #from the controls interface
+    pass #from the controls interface
 
 def sMass():
-    #from the vessel's specifics
+    pass #from the vessel's specifics
 
 def sImpedance(measure1, measure2):
-    #from the metric control interface unit
+    pass #from the metric control interface unit
 
 def fsdSpeedControlDisplay():
     V=eTension
