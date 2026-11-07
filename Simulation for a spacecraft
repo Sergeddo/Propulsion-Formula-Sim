@@ -1,8 +1,8 @@
 #travelling back in time is prohibited,
-#modify and add stuff, 
+#add ideas, 
 #preferably with a structure mainly written with functions, 
-#hardware backend should always be "symmetrical" to frontend, 
-#this is just a sketch, for now
+#backend hardware should always be "symmetrical" to frontend software, 
+#this is just a sketch
 
 def eTension(reference_value):
     pass #from the powerplant unit
