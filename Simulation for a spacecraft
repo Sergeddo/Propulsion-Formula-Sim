@@ -9,24 +9,28 @@ def tension(measure1, measure2):
     deltaTension=measure2-measure1
     tension=measure2
     print(deltaTension, tension)
+    pass
 
 def frequency(measure1, measure2):
     #from the controls interface
     deltaFrequency=measure2-measure1
     frequency=measure2
     print(deltaFrequency, frequency)
+    pass
 
 def mass(measure1, measure2):
     #from the vessel's specifics
     deltaMass=measure2-measure1
     mass=measure2
     print(deltaMass, mass)
+    pass
 
 def impedance(measure1, measure2):
     #from the metric control interface unit
     deltaImpedance=measure2-measure1
     impedance=measure2
     print(deltaImpedance, impedance)
+    pass
 
 def fsdSpeedControlDisplay():
     V=tension
@@ -35,6 +39,7 @@ def fsdSpeedControlDisplay():
     Z=impedance
     ν=V/sqrt(f*m*Z)
     print(ν)
+    pass
 
 def fsdAccelerationControlDisplay():
     V=deltaTension
@@ -43,3 +48,4 @@ def fsdAccelerationControlDisplay():
     Z=deltaImpedance
     deltaν=V/sqrt(f*m*Z)
     print(deltaν)
+    pass
