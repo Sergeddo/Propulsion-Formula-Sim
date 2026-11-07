@@ -4,22 +4,22 @@
 #backend hardware should always be "symmetrical" to frontend software, 
 #this is just a sketch
 
-def eTension(reference_value):
+def tension(measure1, measure2):
     pass #from the powerplant unit
 
-def sFrequency():
+def frequency(measure1, measure2):
     pass #from the controls interface
 
-def sMass():
+def mass(measure1, measure2):
     pass #from the vessel's specifics
 
-def sImpedance(measure1, measure2):
+def impedance(measure1, measure2):
     pass #from the metric control interface unit
 
 def fsdSpeedControlDisplay():
-    V=eTension
-    f=sFrequency
-    m=sMass
-    Z=sImpedance
+    V=tension
+    f=frequency
+    m=mass
+    Z=impedance
     ν=V/sqrt(f*m*Z)
     print(ν)
