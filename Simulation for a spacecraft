@@ -5,16 +5,28 @@
 #this is just a sketch
 
 def tension(measure1, measure2):
-    pass #from the powerplant unit
+    #from the powerplant unit
+    deltaTension=measure2-measure1
+    tension=measure2
+    print(deltaTension, tension)
 
 def frequency(measure1, measure2):
-    pass #from the controls interface
+    #from the controls interface
+    deltaFrequency=measure2-measure1
+    frequency=measure2
+    print(deltaFrequency, frequency)
 
 def mass(measure1, measure2):
-    pass #from the vessel's specifics
+    #from the vessel's specifics
+    deltaMass=measure2-measure1
+    mass=measure2
+    print(deltaMass, mass)
 
 def impedance(measure1, measure2):
-    pass #from the metric control interface unit
+    #from the metric control interface unit
+    deltaImpedance=measure2-measure1
+    impedance=measure2
+    print(deltaImpedance, impedance)
 
 def fsdSpeedControlDisplay():
     V=tension
@@ -23,3 +35,12 @@ def fsdSpeedControlDisplay():
     Z=impedance
     ν=V/sqrt(f*m*Z)
     print(ν)
+
+def fsdAccelerationControlDisplay():
+    V=tension
+    f=frequency
+    m=mass
+    Z=impedance
+    ν=V/sqrt(f*m*Z)
+    print(ν)
+def fsdAccelerationControlDisplay
