@@ -37,9 +37,9 @@ def fsdSpeedControlDisplay():
     print(ν)
 
 def fsdAccelerationControlDisplay():
-    V=tension
-    f=frequency
-    m=mass
-    Z=impedance
-    ν=V/sqrt(f*m*Z)
-    print(ν)
+    V=deltaTension
+    f=deltaFrequency
+    m=deltaMass
+    Z=deltaImpedance
+    deltaν=V/sqrt(f*m*Z)
+    print(deltaν)
