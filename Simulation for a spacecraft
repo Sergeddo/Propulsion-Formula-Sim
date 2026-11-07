@@ -43,4 +43,3 @@ def fsdAccelerationControlDisplay():
     Z=impedance
     ν=V/sqrt(f*m*Z)
     print(ν)
-def fsdAccelerationControlDisplay
